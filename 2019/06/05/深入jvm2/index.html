@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <title>java | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="jvm中的类加载java中有两大类型：基础类型和引用类型（其中基础类型是上篇中的八大基础类型） 本文主要讲引用类型（类，接口，数组类，泛型参数），而泛型参数最终在编译过程中会被擦除，所以实际上是前三，而数组类是在java虚拟机生成的，正常有专门字节码的是类和接口。java变异成class文件之后，从class必须加载到内存中才能被jvm程序执行，其中经过三大步骤 加载 -&amp;gt; 链接 -&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java">
+<meta property="og:url" content="http://yoursite.com/2019/06/05/深入jvm2/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="jvm中的类加载java中有两大类型：基础类型和引用类型（其中基础类型是上篇中的八大基础类型） 本文主要讲引用类型（类，接口，数组类，泛型参数），而泛型参数最终在编译过程中会被擦除，所以实际上是前三，而数组类是在java虚拟机生成的，正常有专门字节码的是类和接口。java变异成class文件之后，从class必须加载到内存中才能被jvm程序执行，其中经过三大步骤 加载 -&amp;gt; 链接 -&amp;gt;">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-19T00:45:18.795Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="java">
+<meta name="twitter:description" content="jvm中的类加载java中有两大类型：基础类型和引用类型（其中基础类型是上篇中的八大基础类型） 本文主要讲引用类型（类，接口，数组类，泛型参数），而泛型参数最终在编译过程中会被擦除，所以实际上是前三，而数组类是在java虚拟机生成的，正常有专门字节码的是类和接口。java变异成class文件之后，从class必须加载到内存中才能被jvm程序执行，其中经过三大步骤 加载 -&amp;gt; 链接 -&amp;gt;">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,242 +154,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-深入jvm5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-深入jvm2" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/18/深入jvm5/">深入jvm5.md</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/18/深入jvm5/" class="archive-article-date">
-  	<time datetime="2019-06-18T15:32:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#java 内存模型<br>java内存模型的定义决定了java数据操作的顺序性和准确性，程序上讲，因为操作系统的差异性，导致了程序操作内存的差异性，java内存模型的定义也保证了应用层和物理层面的隔离。</p>
-<p>###java内存模型目的：<br>是为了保证程序变量访问规则，即在虚拟中中保存变量-&gt;变量从内存中取出来的底层细节等一系列访问规则。【变量】：指程序中的公共变量，实例，静态字段，静态反复，构成数组的对象（不包含局部变量等线程私有变量）。</p>
-<h3 id="java内存规定："><a href="#java内存规定：" class="headerlink" title="java内存规定："></a>java内存规定：</h3><p>所有变量存在主内存中。与之对应的是各个线程也有相对应的工作内存。每个线程工作的时候，如果访问到主内存的变量，会将该对象的主内存副本拷贝到工作内存中（只拷贝访问字段）。线程对变量的操作都是基于工作内存的，之后再同步到主内存中去。这里的主内存和工作内存和虚拟机的内存分配不是同一个层次的分层，没有可比性。如果非要对应的话可以理解为主内存区是指 堆空间，方法区（代码块和静态变量，常量池）；工作内存指：线程栈帧；</p>
-<h3 id="java内存的交互："><a href="#java内存的交互：" class="headerlink" title="java内存的交互："></a>java内存的交互：</h3><p>lock，unlock,read,load,use,assign.store,write。所有针对于内存大操作都是成对出现的，没有单独存在的说法比如：lock &amp;&amp; unlock , read &amp;&amp; load &amp;&amp; use, store &amp;&amp; wirte;</p>
-<h3 id="java内存模型的3个特征："><a href="#java内存模型的3个特征：" class="headerlink" title="java内存模型的3个特征："></a>java内存模型的3个特征：</h3><p>原子性</p>
-<p>可见性</p>
-<p>有序性</p>
-<p>###java内存模型原则</p>
-<h4 id="happen-before-原则"><a href="#happen-before-原则" class="headerlink" title="happen-before 原则"></a>happen-before 原则</h4><p>程序次序规则</p>
-<p>管程锁定</p>
-<p>volatile</p>
-<p>程序启动</p>
-<p>程序终止</p>
-<p>程序终端</p>
-<p>程序对象终结</p>
-<p>传递性</p>
-<h2 id="volatile型变量"><a href="#volatile型变量" class="headerlink" title="volatile型变量"></a>volatile型变量</h2><p>volatile 之所有能够起到及时属刷新主内的数据，保证写操作和读操作的顺序正确性，禁止指令重排，主要是volatile 变量的操作回引入 “内存屏障” ， 内存屏障会在java转为字节码的时候插入一条内存屏障语句。当程序执行到内存屏障时默认程序之前的操作都是完成了的，立马内存同步，从而保证了数据的可见性和重拍的限制。</p>
-<h2 id="remark"><a href="#remark" class="headerlink" title="remark"></a>remark</h2><p>64位虚拟中操作long Double等64位变量时，保存的都是32高位和低位保存，这样子long，Double就不是原子操作了，就会出现一个意料之外的数值。但是在现有的虚拟账号不会有这个问题，只要原因是引入了 monitorenter 和 monitorexit  指令。这两种指令均会消耗操作数栈上的一个引用类型的元素，来确保long Double操作时加锁</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/18/深入jvm5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-深入jvm4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/07/深入jvm4/">深入jvm4</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/07/深入jvm4/" class="archive-article-date">
-  	<time datetime="2019-06-07T07:51:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文的目的是介绍一个工具ASM，从字节码层面分析代码，修改字字节码修改框架，开始ASM之前，先了解下访问者模式</p>
-<h2 id="访问者模式（Visitor-Pattern）"><a href="#访问者模式（Visitor-Pattern）" class="headerlink" title="访问者模式（Visitor Pattern）"></a>访问者模式（Visitor Pattern）</h2><p>意图：主要将数据结构与数据操作分离。</p>
-<p>主要解决：稳定的数据结构和易变的操作耦合问题。</p>
-<h5 id="何时使用：需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而需要避免让这些操作”污染”这些对象的类，使用访问者模式将这些封装到类中。"><a href="#何时使用：需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而需要避免让这些操作”污染”这些对象的类，使用访问者模式将这些封装到类中。" class="headerlink" title="何时使用：需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而需要避免让这些操作”污染”这些对象的类，使用访问者模式将这些封装到类中。"></a>何时使用：需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而需要避免让这些操作”污染”这些对象的类，使用访问者模式将这些封装到类中。</h5><p>如何解决：在被访问的类里面加一个对外提供接待访问者的接口。</p>
-<p>关键代码：在数据基础类里面有一个方法接受访问者，将自身引用传入访问者。</p>
-<p>show me the code</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">interface Element &#123;</span><br><span class="line">   // 1. accept(Visitor) interface</span><br><span class="line">   public void accept( Visitor v ); // first dispatch</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class This implements Element &#123;</span><br><span class="line">   // 1. accept(Visitor) implementation</span><br><span class="line">   public void   accept( Visitor v ) &#123;</span><br><span class="line">     v.visit( this );</span><br><span class="line">   &#125; </span><br><span class="line">   public String thiss() &#123;</span><br><span class="line">     return &quot;This&quot;;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class That implements Element &#123;</span><br><span class="line">   public void   accept( Visitor v ) &#123;</span><br><span class="line">     v.visit( this );</span><br><span class="line">   &#125;</span><br><span class="line">   public String that() &#123;</span><br><span class="line">     return &quot;That&quot;;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class TheOther implements Element &#123;</span><br><span class="line">   public void   accept( Visitor v ) &#123;</span><br><span class="line">     v.visit( this );</span><br><span class="line">   &#125;</span><br><span class="line">   public String theOther() &#123;</span><br><span class="line">     return &quot;TheOther&quot;; </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 2. Create a &quot;visitor&quot; base class with a visit() method for every &quot;element&quot; type</span><br><span class="line">interface Visitor &#123;</span><br><span class="line">   public void visit( This e ); // second dispatch</span><br><span class="line">   public void visit( That e );</span><br><span class="line">   public void visit( TheOther e );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 3. Create a &quot;visitor&quot; derived class for each &quot;operation&quot; to perform on &quot;elements&quot;</span><br><span class="line">class UpVisitor implements Visitor &#123;                   </span><br><span class="line">   public void visit( This e ) &#123;</span><br><span class="line">      System.out.println( &quot;do Up on &quot; + e.thiss() );</span><br><span class="line">   &#125;</span><br><span class="line">   public void visit( That e ) &#123;</span><br><span class="line">      System.out.println( &quot;do Up on &quot; + e.that() );</span><br><span class="line">   &#125;</span><br><span class="line">   public void visit( TheOther e ) &#123;</span><br><span class="line">      System.out.println( &quot;do Up on &quot; + e.theOther() );</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class DownVisitor implements Visitor &#123;</span><br><span class="line">   public void visit( This e ) &#123;</span><br><span class="line">      System.out.println( &quot;do Down on &quot; + e.thiss() );</span><br><span class="line">   &#125;</span><br><span class="line">   public void visit( That e ) &#123;</span><br><span class="line">      System.out.println( &quot;do Down on &quot; + e.that() );</span><br><span class="line">   &#125;</span><br><span class="line">   public void visit( TheOther e ) &#123;</span><br><span class="line">      System.out.println( &quot;do Down on &quot; + e.theOther() );</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class VisitorDemo &#123;</span><br><span class="line">   public static Element[] list = &#123; new This(), new That(), new TheOther() &#125;;</span><br><span class="line"></span><br><span class="line">   // 4. Client creates &quot;visitor&quot; objects and passes each to accept() calls</span><br><span class="line">   public static void main( String[] args ) &#123;</span><br><span class="line">      UpVisitor    up   = new UpVisitor();</span><br><span class="line">      DownVisitor  down = new DownVisitor();</span><br><span class="line">      for (int i=0; i &lt; list.length; i++) &#123;</span><br><span class="line">         list[i].accept( up );</span><br><span class="line">      &#125;</span><br><span class="line">      for (int i=0; i &lt; list.length; i++) &#123;</span><br><span class="line">         list[i].accept( down );</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上最终的结果是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">do Up on This                do Down on This</span><br><span class="line">do Up on That                do Down on That</span><br><span class="line">do Up on TheOther            do Down on TheOther</span><br></pre></td></tr></table></figure>
-<h3 id="ASM-里面正是使用了访问者的模式"><a href="#ASM-里面正是使用了访问者的模式" class="headerlink" title="ASM 里面正是使用了访问者的模式"></a>ASM 里面正是使用了访问者的模式</h3><p>被访问者（Acceptors） 有 ClassReader class, the MethodNode class</p>
-<p>访问者（Visitors interface）有 ClassVisitor, AnnotationVisitor, FieldVisitor, MethodVisitor.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/07/深入jvm4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-深入jvm3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/06/深入jvm3/">深入jvm3</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/06/深入jvm3/" class="archive-article-date">
-  	<time datetime="2019-06-05T16:48:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>java中重写和重载是基于参数类型和返回值类型的：统称方法描述符</p>
-<p>重载：方法名称一样，描述符不一样；这个情况同样存在父类和子类拥有同样的方法名，但是描述符不一样也是重载；</p>
-<p>重写也是依赖方法秒速符的：如果父类的方法描述和子类的方法描述符一样，说明子类的方法重写了父类的方法；<br>但是在java语言中和java虚拟机中，方法描述符不一样；这种情况下，虚拟机采用桥接弥补这个不足</p>
-<p>比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Node&lt;T&gt;&#123;</span><br><span class="line">	public T data;</span><br><span class="line">	public void setData(T data)&#123;</span><br><span class="line">		this.data=data;</span><br><span class="line">		System.out.print(&quot;node.setData&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MyNode extends Node&lt;String&gt;&#123;</span><br><span class="line">	public String data;</span><br><span class="line">	public void setData(String data)&#123;</span><br><span class="line">		this.data=data;</span><br><span class="line">		System.out.print(&quot;MyNode.setData&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上述例子中MyNode中的setData(String data) 重写了Node中的setData(Object data)这个对于写过java语音的程序员来说并不陌生，但是对于java虚拟机判定重写标准来说，这两个方法的方法描述并不一致。这时候就是java虚拟机中采用了桥接的方式弥补这个</p>
-<p>javap -v class 文件查看MyNode中的字节码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Classfile /Users/chenzr/study/22 深入拆解 Java 虚拟机/test/less4/MyNode.class</span><br><span class="line">  Last modified 2019-6-6; size 590 bytes</span><br><span class="line">  MD5 checksum 7d939265a6973b1c1b1866ec806f93dd</span><br><span class="line">  Compiled from &quot;Brige.java&quot;</span><br><span class="line">class MyNode extends Node&lt;java.lang.String&gt;</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line">  flags: ACC_SUPER</span><br><span class="line">Constant pool:</span><br><span class="line">   #1 = Methodref          #9.#23         // Node.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">   #2 = Fieldref           #8.#24         // MyNode.data:Ljava/lang/String;</span><br><span class="line">   #3 = Fieldref           #25.#26        // java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">   #4 = String             #27            // MyNode.setData</span><br><span class="line">   #5 = Methodref          #28.#29        // java/io/PrintStream.print:(Ljava/lang/String;)V</span><br><span class="line">   #6 = Class              #30            // java/lang/String</span><br><span class="line">   #7 = Methodref          #8.#31         // MyNode.setData:(Ljava/lang/String;)V</span><br><span class="line">   #8 = Class              #32            // MyNode</span><br><span class="line">   #9 = Class              #33            // Node</span><br><span class="line">  #10 = Utf8               data</span><br><span class="line">  #11 = Utf8               Ljava/lang/String;</span><br><span class="line">  #12 = Utf8               &lt;init&gt;</span><br><span class="line">  #13 = Utf8               ()V</span><br><span class="line">  #14 = Utf8               Code</span><br><span class="line">  #15 = Utf8               LineNumberTable</span><br><span class="line">  #16 = Utf8               setData</span><br><span class="line">  #17 = Utf8               (Ljava/lang/String;)V</span><br><span class="line">  #18 = Utf8               (Ljava/lang/Object;)V</span><br><span class="line">  #19 = Utf8               Signature</span><br><span class="line">  #20 = Utf8               LNode&lt;Ljava/lang/String;&gt;;</span><br><span class="line">  #21 = Utf8               SourceFile</span><br><span class="line">  #22 = Utf8               Brige.java</span><br><span class="line">  #23 = NameAndType        #12:#13        // &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">  #24 = NameAndType        #10:#11        // data:Ljava/lang/String;</span><br><span class="line">  #25 = Class              #34            // java/lang/System</span><br><span class="line">  #26 = NameAndType        #35:#36        // out:Ljava/io/PrintStream;</span><br><span class="line">  #27 = Utf8               MyNode.setData</span><br><span class="line">  #28 = Class              #37            // java/io/PrintStream</span><br><span class="line">  #29 = NameAndType        #38:#17        // print:(Ljava/lang/String;)V</span><br><span class="line">  #30 = Utf8               java/lang/String</span><br><span class="line">  #31 = NameAndType        #16:#17        // setData:(Ljava/lang/String;)V</span><br><span class="line">  #32 = Utf8               MyNode</span><br><span class="line">  #33 = Utf8               Node</span><br><span class="line">  #34 = Utf8               java/lang/System</span><br><span class="line">  #35 = Utf8               out</span><br><span class="line">  #36 = Utf8               Ljava/io/PrintStream;</span><br><span class="line">  #37 = Utf8               java/io/PrintStream</span><br><span class="line">  #38 = Utf8               print</span><br><span class="line">&#123;</span><br><span class="line">  public java.lang.String data;</span><br><span class="line">    descriptor: Ljava/lang/String;</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line"></span><br><span class="line">  MyNode();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags:</span><br><span class="line">    Code:</span><br><span class="line">      stack=1, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method Node.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 9: 0</span><br><span class="line"></span><br><span class="line">  public void setData(java.lang.String);</span><br><span class="line">    descriptor: (Ljava/lang/String;)V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=2, args_size=2</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: aload_1</span><br><span class="line">         2: putfield      #2                  // Field data:Ljava/lang/String;</span><br><span class="line">         5: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">         8: ldc           #4                  // String MyNode.setData</span><br><span class="line">        10: invokevirtual #5                  // Method java/io/PrintStream.print:(Ljava/lang/String;)V</span><br><span class="line">        13: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 12: 0</span><br><span class="line">        line 13: 5</span><br><span class="line">        line 14: 13</span><br><span class="line"></span><br><span class="line">  public void setData(java.lang.Object);</span><br><span class="line">    descriptor: (Ljava/lang/Object;)V</span><br><span class="line">    flags: ACC_PUBLIC, ACC_BRIDGE, ACC_SYNTHETIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=2, args_size=2</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: aload_1</span><br><span class="line">         2: checkcast     #6                  // class java/lang/String</span><br><span class="line">         5: invokevirtual #7                  // Method setData:(Ljava/lang/String;)V</span><br><span class="line">         8: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 9: 0</span><br><span class="line">&#125;</span><br><span class="line">Signature: #20                          // LNode&lt;Ljava/lang/String;&gt;;</span><br><span class="line">SourceFile: &quot;Brige.java&quot;</span><br></pre></td></tr></table></figure>
-<p>大家可以看到 flag包含 ACC_BRIDGE, ACC_SYNTHETIC 表示了桥接的意思，<br>在这里就是MyNode setData(Object)需要桥接保证重写语义（方法描述否）</p>
-<h2 id="java-中方法的调用"><a href="#java-中方法的调用" class="headerlink" title="java 中方法的调用"></a>java 中方法的调用</h2><h4 id="1，对于重载（方法描述符中能够确认的）非私有静态方法，编译后的java指令是invokestatic，即在编译后就已经确认了目标方法（静态绑定）"><a href="#1，对于重载（方法描述符中能够确认的）非私有静态方法，编译后的java指令是invokestatic，即在编译后就已经确认了目标方法（静态绑定）" class="headerlink" title="1，对于重载（方法描述符中能够确认的）非私有静态方法，编译后的java指令是invokestatic，即在编译后就已经确认了目标方法（静态绑定）"></a>1，对于重载（方法描述符中能够确认的）非私有静态方法，编译后的java指令是invokestatic，即在编译后就已经确认了目标方法（静态绑定）</h4><h4 id="2，java里对于非私有实例化方法，接口调用-编译后的java指令是invokevirtual-invokeinterface-等指令，这既是java的虚方法调用。对于虚方法一般都是在java运行中才去动态绑定执行的。对于虚方法的调用，java采用了空间换区时间的方法；"><a href="#2，java里对于非私有实例化方法，接口调用-编译后的java指令是invokevirtual-invokeinterface-等指令，这既是java的虚方法调用。对于虚方法一般都是在java运行中才去动态绑定执行的。对于虚方法的调用，java采用了空间换区时间的方法；" class="headerlink" title="2，java里对于非私有实例化方法，接口调用 编译后的java指令是invokevirtual invokeinterface 等指令，这既是java的虚方法调用。对于虚方法一般都是在java运行中才去动态绑定执行的。对于虚方法的调用，java采用了空间换区时间的方法；"></a>2，java里对于非私有实例化方法，接口调用 编译后的java指令是invokevirtual invokeinterface 等指令，这既是java的虚方法调用。对于虚方法一般都是在java运行中才去动态绑定执行的。对于虚方法的调用，java采用了空间换区时间的方法；</h4><p>（1） 方法表（参考Linux里，上层对内核的调用也是使用了方法表的调用。。。待补充）。每个类会生成一个方法表，子类方法表拥有父类的所有方法，而且其子类在方法表上的索引值和重写父类方法的索引一样</p>
-<p>（2）内联缓存：一种加快动态版绑定的缓存。其中涉及单态，多态，超多态的感念。java运行阶段，大部分的虚方法调用都是一个情况下回使用单态，实现快速动态绑定；如果是多态和超多态的情况下（多个实现类。。。）会去轮训多态内联缓存，将调用的方法拿出来。实际多态的内联缓存和方法表的调用已经没有多大区别了，甚至会因为不断写缓存的情况而使得</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/06/深入jvm3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-深入jvm2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/05/深入jvm2/">java</a>
+    <h1 class="article-title" itemprop="name">
+      java
     </h1>
   
 
@@ -420,6 +196,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -427,16 +224,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/05/深入jvm2/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/05/深入jvm2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/06/06/深入jvm3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          深入jvm3
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/06/04/深入jvm1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">jvm 理解1</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -456,86 +321,14 @@
 
 
 
-
   
-    <article id="post-深入jvm1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/04/深入jvm1/">jvm 理解1</a>
-    </h1>
   
 
-        
-        <a href="/2019/06/04/深入jvm1/" class="archive-article-date">
-  	<time datetime="2019-06-03T16:27:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>##深入理解java虚拟机</p>
-<h3 id="java中内存的使用情况"><a href="#java中内存的使用情况" class="headerlink" title="java中内存的使用情况"></a>java中内存的使用情况</h3><p>Java 虚拟机将运行时内存区域划分为五个部分，分别为方法区、堆、PC 寄存器、Java 方法栈和本地方法栈。Java 程序编译而成的 class 文件，需要先加载至方法区中，方能在 Java 虚拟机中运行。</p>
-<h4 id="java中有八种基本类型"><a href="#java中有八种基本类型" class="headerlink" title="java中有八种基本类型"></a>java中有八种基本类型</h4><p>boolean</p>
-<p>short </p>
-<p>byte</p>
-<p>int</p>
-<p>long</p>
-<p>float</p>
-<p>double</p>
-<p>String</p>
-<p>其中，boolean 类型在 Java 虚拟机中被映射为整数类型：“true”被映射为 1，而“false”被映射为 0。Java 代码中的逻辑运算以及条件跳转，都是用整数相关的字节码来实现的。</p>
-<p>boolean、byte、chat、short 加载到操作数栈上，而后将栈上的值当成 int 类型来运算。</p>
-<p>对于 boolean、char 这两个无符号类型来说，加载伴随着零扩展。举个例子，char 的大小为两个字节。在加载时 char 的值会被复制到 int 类型的低二字节，而高二字节则会用 0 来填充。</p>
-<p>对于 byte、short 这两个类型来说，加载伴随着符号扩展。举个例子，short 的大小为两个字节。在加载时 short 的值同样会被复制到 int 类型的低二字节。如果该 short 值为非负数，即最高位为 0，那么该 int 类型的值的高二字节会用 0 来填充，否则用 1 来填充</p>
-<p>除 boolean 类型之外，Java 还有另外 7 个基本类型。它们拥有不同的值域，但默认值在内存中均为 0。这些基本类型之中，浮点类型比较特殊。基于它的运算或比较，需要考虑 +0.0F、-0.0F 以及 NaN 的情况。</p>
-<p>上述的操作实验可以引用<br>sum.misc.Unsafe 下的对内存进行操作，里面部分native方法均能起到掩码操作<br>比如：int 设置到boolean 时的掩码操作</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/04/深入jvm1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+  
 
   
+
   
 
 
@@ -558,8 +351,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
