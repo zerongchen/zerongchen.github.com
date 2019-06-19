@@ -6,16 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>myblog | Hexo</title>
+  <title>深入jvm3 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="myblog">
-<meta property="og:url" content="http://yoursite.com/2019/05/29/myblog/index.html">
+  <meta name="description" content="java中重写和重载是基于参数类型和返回值类型的：统称方法描述符 重载：方法名称一样，描述符不一样；这个情况同样存在父类和子类拥有同样的方法名，但是描述符不一样也是重载； 重写也是依赖方法秒速符的：如果父类的方法描述和子类的方法描述符一样，说明子类的方法重写了父类的方法；但是在java语言中和java虚拟机中，方法描述符不一样；这种情况下，虚拟机采用桥接弥补这个不足 比如： 12345678910">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入jvm3">
+<meta property="og:url" content="http://yoursite.com/2019/06/06/深入jvm3/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="java中重写和重载是基于参数类型和返回值类型的：统称方法描述符 重载：方法名称一样，描述符不一样；这个情况同样存在父类和子类拥有同样的方法名，但是描述符不一样也是重载； 重写也是依赖方法秒速符的：如果父类的方法描述和子类的方法描述符一样，说明子类的方法重写了父类的方法；但是在java语言中和java虚拟机中，方法描述符不一样；这种情况下，虚拟机采用桥接弥补这个不足 比如： 12345678910">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-03T14:41:48.794Z">
+<meta property="og:updated_time" content="2019-06-07T03:30:05.735Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="myblog">
+<meta name="twitter:title" content="深入jvm3">
+<meta name="twitter:description" content="java中重写和重载是基于参数类型和返回值类型的：统称方法描述符 重载：方法名称一样，描述符不一样；这个情况同样存在父类和子类拥有同样的方法名，但是描述符不一样也是重载； 重写也是依赖方法秒速符的：如果父类的方法描述和子类的方法描述符一样，说明子类的方法重写了父类的方法；但是在java语言中和java虚拟机中，方法描述符不一样；这种情况下，虚拟机采用桥接弥补这个不足 比如： 12345678910">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -151,27 +154,38 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-myblog" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-深入jvm3" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      myblog
+      深入jvm3
     </h1>
   
 
         
-        <a href="/2019/05/29/myblog/" class="archive-article-date">
-  	<time datetime="2019-05-28T16:19:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
+        <a href="/2019/06/06/深入jvm3/" class="archive-article-date">
+  	<time datetime="2019-06-05T16:48:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>java中重写和重载是基于参数类型和返回值类型的：统称方法描述符</p>
+<p>重载：方法名称一样，描述符不一样；这个情况同样存在父类和子类拥有同样的方法名，但是描述符不一样也是重载；</p>
+<p>重写也是依赖方法秒速符的：如果父类的方法描述和子类的方法描述符一样，说明子类的方法重写了父类的方法；<br>但是在java语言中和java虚拟机中，方法描述符不一样；这种情况下，虚拟机采用桥接弥补这个不足</p>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Node&lt;T&gt;&#123;</span><br><span class="line">	public T data;</span><br><span class="line">	public void setData(T data)&#123;</span><br><span class="line">		this.data=data;</span><br><span class="line">		System.out.print(&quot;node.setData&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MyNode extends Node&lt;String&gt;&#123;</span><br><span class="line">	public String data;</span><br><span class="line">	public void setData(String data)&#123;</span><br><span class="line">		this.data=data;</span><br><span class="line">		System.out.print(&quot;MyNode.setData&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上述例子中MyNode中的setData(String data) 重写了Node中的setData(Object data)这个对于写过java语音的程序员来说并不陌生，但是对于java虚拟机判定重写标准来说，这两个方法的方法描述并不一致。这时候就是java虚拟机中采用了桥接的方式弥补这个</p>
+<p>javap -v class 文件查看MyNode中的字节码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Classfile /Users/chenzr/study/22 深入拆解 Java 虚拟机/test/less4/MyNode.class</span><br><span class="line">  Last modified 2019-6-6; size 590 bytes</span><br><span class="line">  MD5 checksum 7d939265a6973b1c1b1866ec806f93dd</span><br><span class="line">  Compiled from &quot;Brige.java&quot;</span><br><span class="line">class MyNode extends Node&lt;java.lang.String&gt;</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line">  flags: ACC_SUPER</span><br><span class="line">Constant pool:</span><br><span class="line">   #1 = Methodref          #9.#23         // Node.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">   #2 = Fieldref           #8.#24         // MyNode.data:Ljava/lang/String;</span><br><span class="line">   #3 = Fieldref           #25.#26        // java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">   #4 = String             #27            // MyNode.setData</span><br><span class="line">   #5 = Methodref          #28.#29        // java/io/PrintStream.print:(Ljava/lang/String;)V</span><br><span class="line">   #6 = Class              #30            // java/lang/String</span><br><span class="line">   #7 = Methodref          #8.#31         // MyNode.setData:(Ljava/lang/String;)V</span><br><span class="line">   #8 = Class              #32            // MyNode</span><br><span class="line">   #9 = Class              #33            // Node</span><br><span class="line">  #10 = Utf8               data</span><br><span class="line">  #11 = Utf8               Ljava/lang/String;</span><br><span class="line">  #12 = Utf8               &lt;init&gt;</span><br><span class="line">  #13 = Utf8               ()V</span><br><span class="line">  #14 = Utf8               Code</span><br><span class="line">  #15 = Utf8               LineNumberTable</span><br><span class="line">  #16 = Utf8               setData</span><br><span class="line">  #17 = Utf8               (Ljava/lang/String;)V</span><br><span class="line">  #18 = Utf8               (Ljava/lang/Object;)V</span><br><span class="line">  #19 = Utf8               Signature</span><br><span class="line">  #20 = Utf8               LNode&lt;Ljava/lang/String;&gt;;</span><br><span class="line">  #21 = Utf8               SourceFile</span><br><span class="line">  #22 = Utf8               Brige.java</span><br><span class="line">  #23 = NameAndType        #12:#13        // &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">  #24 = NameAndType        #10:#11        // data:Ljava/lang/String;</span><br><span class="line">  #25 = Class              #34            // java/lang/System</span><br><span class="line">  #26 = NameAndType        #35:#36        // out:Ljava/io/PrintStream;</span><br><span class="line">  #27 = Utf8               MyNode.setData</span><br><span class="line">  #28 = Class              #37            // java/io/PrintStream</span><br><span class="line">  #29 = NameAndType        #38:#17        // print:(Ljava/lang/String;)V</span><br><span class="line">  #30 = Utf8               java/lang/String</span><br><span class="line">  #31 = NameAndType        #16:#17        // setData:(Ljava/lang/String;)V</span><br><span class="line">  #32 = Utf8               MyNode</span><br><span class="line">  #33 = Utf8               Node</span><br><span class="line">  #34 = Utf8               java/lang/System</span><br><span class="line">  #35 = Utf8               out</span><br><span class="line">  #36 = Utf8               Ljava/io/PrintStream;</span><br><span class="line">  #37 = Utf8               java/io/PrintStream</span><br><span class="line">  #38 = Utf8               print</span><br><span class="line">&#123;</span><br><span class="line">  public java.lang.String data;</span><br><span class="line">    descriptor: Ljava/lang/String;</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line"></span><br><span class="line">  MyNode();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags:</span><br><span class="line">    Code:</span><br><span class="line">      stack=1, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method Node.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 9: 0</span><br><span class="line"></span><br><span class="line">  public void setData(java.lang.String);</span><br><span class="line">    descriptor: (Ljava/lang/String;)V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=2, args_size=2</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: aload_1</span><br><span class="line">         2: putfield      #2                  // Field data:Ljava/lang/String;</span><br><span class="line">         5: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">         8: ldc           #4                  // String MyNode.setData</span><br><span class="line">        10: invokevirtual #5                  // Method java/io/PrintStream.print:(Ljava/lang/String;)V</span><br><span class="line">        13: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 12: 0</span><br><span class="line">        line 13: 5</span><br><span class="line">        line 14: 13</span><br><span class="line"></span><br><span class="line">  public void setData(java.lang.Object);</span><br><span class="line">    descriptor: (Ljava/lang/Object;)V</span><br><span class="line">    flags: ACC_PUBLIC, ACC_BRIDGE, ACC_SYNTHETIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=2, args_size=2</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: aload_1</span><br><span class="line">         2: checkcast     #6                  // class java/lang/String</span><br><span class="line">         5: invokevirtual #7                  // Method setData:(Ljava/lang/String;)V</span><br><span class="line">         8: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 9: 0</span><br><span class="line">&#125;</span><br><span class="line">Signature: #20                          // LNode&lt;Ljava/lang/String;&gt;;</span><br><span class="line">SourceFile: &quot;Brige.java&quot;</span><br></pre></td></tr></table></figure>
+<p>大家可以看到 flag包含 ACC_BRIDGE, ACC_SYNTHETIC 表示了桥接的意思，<br>在这里就是MyNode setData(Object)需要桥接保证重写语义（方法描述否）</p>
+<h2 id="java-中方法的调用"><a href="#java-中方法的调用" class="headerlink" title="java 中方法的调用"></a>java 中方法的调用</h2><h4 id="1，对于重载（方法描述符中能够确认的）非私有静态方法，编译后的java指令是invokestatic，即在编译后就已经确认了目标方法（静态绑定）"><a href="#1，对于重载（方法描述符中能够确认的）非私有静态方法，编译后的java指令是invokestatic，即在编译后就已经确认了目标方法（静态绑定）" class="headerlink" title="1，对于重载（方法描述符中能够确认的）非私有静态方法，编译后的java指令是invokestatic，即在编译后就已经确认了目标方法（静态绑定）"></a>1，对于重载（方法描述符中能够确认的）非私有静态方法，编译后的java指令是invokestatic，即在编译后就已经确认了目标方法（静态绑定）</h4><h4 id="2，java里对于非私有实例化方法，接口调用-编译后的java指令是invokevirtual-invokeinterface-等指令，这既是java的虚方法调用。对于虚方法一般都是在java运行中才去动态绑定执行的。对于虚方法的调用，java采用了空间换区时间的方法；"><a href="#2，java里对于非私有实例化方法，接口调用-编译后的java指令是invokevirtual-invokeinterface-等指令，这既是java的虚方法调用。对于虚方法一般都是在java运行中才去动态绑定执行的。对于虚方法的调用，java采用了空间换区时间的方法；" class="headerlink" title="2，java里对于非私有实例化方法，接口调用 编译后的java指令是invokevirtual invokeinterface 等指令，这既是java的虚方法调用。对于虚方法一般都是在java运行中才去动态绑定执行的。对于虚方法的调用，java采用了空间换区时间的方法；"></a>2，java里对于非私有实例化方法，接口调用 编译后的java指令是invokevirtual invokeinterface 等指令，这既是java的虚方法调用。对于虚方法一般都是在java运行中才去动态绑定执行的。对于虚方法的调用，java采用了空间换区时间的方法；</h4><p>（1） 方法表（参考Linux里，上层对内核的调用也是使用了方法表的调用。。。待补充）。每个类会生成一个方法表，子类方法表拥有父类的所有方法，而且其子类在方法表上的索引值和重写父类方法的索引一样</p>
+<p>（2）内联缓存：一种加快动态版绑定的缓存。其中涉及单态，多态，超多态的感念。java运行阶段，大部分的虚方法调用都是一个情况下回使用单态，实现快速动态绑定；如果是多态和超多态的情况下（多个实现类。。。）会去轮训多态内联缓存，将调用的方法拿出来。实际多态的内联缓存和方法表的调用已经没有多大区别了，甚至会因为不断写缓存的情况而使得</p>
+
       
 
       
@@ -250,7 +264,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/29/myblog/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/06/深入jvm3/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -264,11 +278,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/03/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/06/07/深入jvm4/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Hello World
+          深入jvm4
         
       </div>
     </a>
