@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Roy&#39;s Note</title>
+  
+  
+  <link href="http://yoursite.com/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2021-04-26T15:55:49.449Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>陈泽荣</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SOLID</title>
+    <link href="http://yoursite.com/2021/04/26/SOLID/"/>
+    <id>http://yoursite.com/2021/04/26/SOLID/</id>
+    <published>2021-04-26T14:39:36.000Z</published>
+    <updated>2021-04-26T15:55:49.449Z</updated>
+    
+    <content type="html"><![CDATA[<p>优秀视频来源<a href="https://www.youtube.com/watch?v=rtmFCcjEgEw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=rtmFCcjEgEw</a></p><h2 id="S-single-responsiblity-principle"><a href="#S-single-responsiblity-principle" class="headerlink" title="S: single responsiblity principle"></a>S: single responsiblity principle</h2><p>极可能简单的职责，单类单职责</p><h2 id="O-open-extension-colose-modify-对扩展开放，对修改闭合"><a href="#O-open-extension-colose-modify-对扩展开放，对修改闭合" class="headerlink" title="O: open extension colose modify 对扩展开放，对修改闭合"></a>O: open extension colose modify 对扩展开放，对修改闭合</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pay</span><span class="params">(PayRequest request)</span></span>&#123;</span><br><span class="line">    String type = request.type;</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">"credit"</span>.equals(type))&#123;</span><br><span class="line">        <span class="keyword">new</span> CreditPay().pay();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">new</span> crashPay().pay();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上述随着pay的方式越来越多，if会出现越来越多分分支，如果这个代码出现在service乃至controller，就回不得不改到这个类，这时候适合用工厂模式</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pay</span><span class="params">(PayRequest request)</span></span>&#123;</span><br><span class="line">    String type = request.type;</span><br><span class="line">    PayFactory.initPay(type).pay()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PayFactory</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Pay <span class="title">initPay</span><span class="params">(String type)</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(<span class="string">"credit"</span>.equals(type))&#123;</span><br><span class="line">           <span class="keyword">new</span> CreditPay();</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="keyword">new</span> crashPay();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Pay</span></span>&#123;</span><br><span class="line">        pay();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CreditPay implements Pay&#123;</span><br><span class="line">        <span class="comment">//dosomething</span></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="keyword">public</span> CrashPay implements Pay&#123;</span><br><span class="line">        <span class="comment">//dosomething</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="L-Liskov-Subscription-principle-里氏替换原则"><a href="#L-Liskov-Subscription-principle-里氏替换原则" class="headerlink" title="L: Liskov Subscription principle 里氏替换原则"></a>L: Liskov Subscription principle 里氏替换原则</h2><ul><li>派生类必须能够替代父类，消费者无需知道</li><li>任何父类接口的实现类，必须可以替换集成改父类的其他实现类</li><li>任何子类接口实现的预期必须一致</li></ul><h2 id="I-interface-segregation-principle-接口隔离原则"><a href="#I-interface-segregation-principle-接口隔离原则" class="headerlink" title="I: interface segregation principle 接口隔离原则"></a>I: interface segregation principle 接口隔离原则</h2><ul><li>client端不应该依赖没用的方法</li><li>依赖的接口改变不应该影响client 端</li><li>采用单一的，专职的接口替换臃肿的接口</li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Subscriber implements Model&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">subscribe</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Mail <span class="title">getNotifyEmail</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Notification&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">send</span><span class="params">(Subscriber s,String message)</span></span>&#123;</span><br><span class="line">        s.getNotifyEmail().q(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上述Notification.send 的入参是Subscriber，但是只用到其中一个实现。</p><ul><li>subscriber 的接口改变，比如增加，或者删除subscribe方法，都会或多或少影响到 Notification</li><li>对于Notification来说Subscriber比较臃肿</li><li>解决方法：定义单独一个接口作为Send的第一个参数，且该接口只有一个实现方法 getNotifyEmail</li></ul><h2 id="D-Dependency-invesion-principle-依赖独立"><a href="#D-Dependency-invesion-principle-依赖独立" class="headerlink" title="D: Dependency invesion principle 依赖独立"></a>D: Dependency invesion principle 依赖独立</h2><p>上层调下层采用抽象的形式，而不是具体的实现类。比如创建用户的实现。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getUser</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createUser</span><span class="params">(UserModel usermodel)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>针对这类实现，最好采用抽像的方式，区分不同DB之间的操作</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;优秀视频来源&lt;a href=&quot;https://www.youtube.com/watch?v=rtmFCcjEgEw&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.youtube.com/watch?v=rtmFCcjEgEw&lt;/a</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Memory-EfficientJavaCode</title>
+    <link href="http://yoursite.com/2021/04/14/Memory-Efficient-Java-Code/"/>
+    <id>http://yoursite.com/2021/04/14/Memory-Efficient-Java-Code/</id>
+    <published>2021-04-13T16:15:46.000Z</published>
+    <updated>2021-07-14T09:10:17.272Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="初识-java对象内存"><a href="#初识-java对象内存" class="headerlink" title="初识 java对象内存"></a>初识 java对象内存</h1><p>int t=4; 在java中需要多少个位表示int？ 4个byte ，32bit<br>但是Integer对象呢，需要多少位呢？<br></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Integer t = <span class="keyword">new</span> Integer(<span class="number">4</span>);</span><br></pre></td></tr></table></figure><p></p><p>答案是128位，也就是int的4倍（32位系统）<br>4 8 12 16<br>|- - - - |- - - - |- - - - |- - - - |<br>|class point | flags | lock info | value = 4 |</p><p>64bit 系统需要 28字节 共 224<br>8 16 24 28<br>|- - - - |- - - - |- - - - |- - - - |<br>|class point | flags | lock info | value = 3 |</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;初识-java对象内存&quot;&gt;&lt;a href=&quot;#初识-java对象内存&quot; class=&quot;headerlink&quot; title=&quot;初识 java对象内存&quot;&gt;&lt;/a&gt;初识 java对象内存&lt;/h1&gt;&lt;p&gt;int t=4; 在java中需要多少个位表示int？ 4个byte</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>spring-tomcat-apr</title>
+    <link href="http://yoursite.com/2021/03/08/spring-tomcat-apr/"/>
+    <id>http://yoursite.com/2021/03/08/spring-tomcat-apr/</id>
+    <published>2021-03-08T09:39:21.000Z</published>
+    <updated>2021-07-14T09:09:46.345Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="spring-tomcat-apr"><a href="#spring-tomcat-apr" class="headerlink" title="spring-tomcat-apr"></a>spring-tomcat-apr</h1><ul><li>要求实现安装 JDK 1.8 ; gcc 版本 &gt;4.5，该安装暂时忽略ssl协议</li></ul><p>以下安装包目前存在OSS oss://kanban-bj/tool/apr/</p><h3 id="1-apr-1-7-0"><a href="#1-apr-1-7-0" class="headerlink" title="1,apr-1.7.0"></a>1,apr-1.7.0</h3><p>进入该目录 执行 ./configure –prefix=${apr_path} &amp; make &amp; make install<br></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.hust.edu.cn/apache//apr/apr-1.7.0.tar.gz</span><br><span class="line">tar xvf apr-1.7.0.tar.gz </span><br><span class="line">./configure --prefix=$&#123;apr_path&#125; &amp; make &amp; make install</span><br></pre></td></tr></table></figure><p></p><p>其中路径 ${apr_path} 是APR安装目录，JNI执行文件模目录所在地，默认 /usr/local/apr</p><h3 id="2-apr-util-1-6-1"><a href="#2-apr-util-1-6-1" class="headerlink" title="2,apr-util-1.6.1"></a>2,apr-util-1.6.1</h3><p>进入该目录 执行 ./configure –with-apr=${apr_path} &amp; make &amp; mak install<br></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache//apr/apr-util-1.6.1.tar.gz</span><br><span class="line">tar xvf apr-util-1.6.1.tar.gz</span><br><span class="line">./configure --prefix=$&#123;apr_path&#125; &amp; make &amp; make install</span><br></pre></td></tr></table></figure><p></p><p>如果执行过程中报 xml/apr_xml.c expat.h 找不到的情况</p><ul><li>能上网的情况下执行 yum install expat-devel 后执行 ./configure –with-apr=${apr_path} &amp; make &amp; mak install</li><li><p>不能上网的情况下解压包 expac-2.2.10.tar.bz2</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> wget https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.bz2</span><br><span class="line"> </span><br><span class="line"> tar xvf expact-2.2.10.tar.bz2 -C ./expat-dir    </span><br><span class="line"> cd ./expat-dir     </span><br><span class="line"> ./cofigure --prefix=$&#123;expat_path&#125; &amp; make &amp; make install</span><br><span class="line"><span class="meta"> #</span> $&#123;expact_path&#125; expat 的安装路径     </span><br><span class="line"> ./configure --with-apr=$&#123;apr-pat&#125; --with-expat=&#123;expat_path&#125; &amp; make &amp; make install</span><br><span class="line"></span><br><span class="line"> ``` </span><br><span class="line"><span class="meta"> #</span>## 3,apr-iconv-1.2.2</span><br><span class="line"></span><br><span class="line"> ```shell </span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache//apr/apr-iconv-1.2.2.tar.gz</span><br><span class="line">tar xvf apr-iconv-1.2.2.tar.gz</span><br><span class="line">./configure --with-apr=&#123;apr_path&#125; &amp; make &amp; make install</span><br></pre></td></tr></table></figure><h3 id="4-tomcat-native"><a href="#4-tomcat-native" class="headerlink" title="4,tomcat-native"></a>4,tomcat-native</h3><p>根据自身tomcat 于 <a href="http://tomcat.apache.org/native-doc/" target="_blank" rel="noopener">http://tomcat.apache.org/native-doc/</a> 下载</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> cd native</span><br><span class="line">./configure --with-apr=&#123;apr_path&#125; --with-java-home=$&#123;JAVA_HOME&#125;  --without-ssl &amp; make &amp; make install </span><br><span class="line"><span class="meta">#</span> 因为没有装openssl 所以这里直接加上 without-ssl 即可</span><br></pre></td></tr></table></figure></li></ul><h3 id="5-服务启动加上参数"><a href="#5-服务启动加上参数" class="headerlink" title="5,服务启动加上参数"></a>5,服务启动加上参数</h3><p>修改配置项 spring.tomcat.protocol=org.apache.coyote.http11.Http11AprProtocol(如果是appolo启动可从appolo 全局变量修改)</p><p>-Djava.library.path=/usr/local/apr/lib<br></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">nohup java -Xmx5G -Xms5G -Djava.library.path=/usr/local/apr/lib -jar view.jar --spring.config.location=shared.properties,view.properties &gt; /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure><p></p><p>启动成功的话会打印如下log<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cn.****.valuekanban.TomcatConfig      : protocol:org.apache.coyote.http11.Http11AprProtocol@421bba99</span><br><span class="line"></span><br><span class="line">2021-03-08 17:16:12.685+0800 INFO [service-view,,,] 12998 --- [apr-8882-exec-2] c.a.valuekanban.view.core.ViewDelegate   : 过滤视图[0ac34610c3d343f288e022087e20b13e-部门事务按来源状态分布]</span><br><span class="line">2021-03-08 17:16:12.685+0800 INFO [service-view,,,] 12998 --- [apr-8882-exec-1] c.a.valuekanban.view.core.ViewDelegate   : 过滤视图[92a7ad88155443f184a563dccb91790e-事务(重点项目)状态分布]</span><br><span class="line">2021-03-08 17:16:12.724+0800 INFO [service-view,,,] 12998 --- [apr-8882-exec-1] c.a.v.view.core.support.StatService      : batchVu size: 4</span><br></pre></td></tr></table></figure><p></p><h3 id="6-mark"><a href="#6-mark" class="headerlink" title="6,mark"></a>6,mark</h3><p>目前已经已经生成了一份 8C/16G 的执行文件，oss://kanban-bj/tool/apr/8c/tomcat-apr-bin.tar.gz<br></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ossutil cp oss://kanban-bj/tool/apr/8c/tomcat-apr-bin.tar.gz ./</span><br><span class="line">tar xvf tomcat-apr-bin.tar.gz -C /usr/local/</span><br></pre></td></tr></table></figure><p></p><p>目前解压目标文件是在 /usr/local ，其他目前文件测试好像是不生效，另外这些执行文件是基于8C的linux操作系统下生成，如果遇到机器是非8C最好重新安装（内存是64位的就不影响）–暂时无测试8c环境生产的文件在4c下是否可以执行，欢迎指正</p><p>执行上述命令之后进行 步骤 5</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;spring-tomcat-apr&quot;&gt;&lt;a href=&quot;#spring-tomcat-apr&quot; class=&quot;headerlink&quot; title=&quot;spring-tomcat-apr&quot;&gt;&lt;/a&gt;spring-tomcat-apr&lt;/h1&gt;&lt;ul&gt;&lt;li&gt;要求实现安</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java_NetWorking-Protocol-Design</title>
+    <link href="http://yoursite.com/2020/06/17/java-NetWorking-Protocol-Design/"/>
+    <id>http://yoursite.com/2020/06/17/java-NetWorking-Protocol-Design/</id>
+    <published>2020-06-17T09:59:34.000Z</published>
+    <updated>2021-03-08T09:53:56.442Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java_NetWorking-interAddress</title>
+    <link href="http://yoursite.com/2020/06/17/java-NetWorking-interAddress/"/>
+    <id>http://yoursite.com/2020/06/17/java-NetWorking-interAddress/</id>
+    <published>2020-06-17T09:59:19.000Z</published>
+    <updated>2021-03-08T09:53:56.443Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java_NetWorking-JarUrlConnection</title>
+    <link href="http://yoursite.com/2020/06/17/java-NetWorking-JarUrlConnection/"/>
+    <id>http://yoursite.com/2020/06/17/java-NetWorking-JarUrlConnection/</id>
+    <published>2020-06-17T09:59:08.000Z</published>
+    <updated>2021-03-08T09:53:56.441Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java_NetWorking-URL+URLConnection</title>
+    <link href="http://yoursite.com/2020/06/17/java-NetWorking-URL-URLConnection/"/>
+    <id>http://yoursite.com/2020/06/17/java-NetWorking-URL-URLConnection/</id>
+    <published>2020-06-17T09:58:50.000Z</published>
+    <updated>2021-03-08T09:53:56.443Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java_NetWorking-UDP-DatagramSocket</title>
+    <link href="http://yoursite.com/2020/06/17/java-NetWorking-UDP-DatagramSocket/"/>
+    <id>http://yoursite.com/2020/06/17/java-NetWorking-UDP-DatagramSocket/</id>
+    <published>2020-06-17T09:58:27.000Z</published>
+    <updated>2021-03-08T09:53:56.442Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java_NetWorking-serversocket</title>
+    <link href="http://yoursite.com/2020/06/17/java-NetWorking-serversocket/"/>
+    <id>http://yoursite.com/2020/06/17/java-NetWorking-serversocket/</id>
+    <published>2020-06-17T09:57:54.000Z</published>
+    <updated>2021-03-08T09:53:56.443Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java_NetWorking-socket</title>
+    <link href="http://yoursite.com/2020/06/17/java-NetWorking-socket/"/>
+    <id>http://yoursite.com/2020/06/17/java-NetWorking-socket/</id>
+    <published>2020-06-17T09:57:48.000Z</published>
+    <updated>2021-03-08T09:53:56.443Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java_NetWorking</title>
+    <link href="http://yoursite.com/2020/06/17/java-NetWorking/"/>
+    <id>http://yoursite.com/2020/06/17/java-NetWorking/</id>
+    <published>2020-06-17T09:57:39.000Z</published>
+    <updated>2021-03-08T09:53:56.444Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="http://tutorials.jenkov.com/java-networking/index.html" target="_blank" rel="noopener">http://tutorials.jenkov.com/java-networking/index.html</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;http://tutorials.jenkov.com/java-networking/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://tutorials.jenkov.com/java-networki</summary>
+      
+    
+    
+    
+    
+    <category term="java网络" scheme="http://yoursite.com/tags/java网络/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>话谈JSR_292</title>
+    <link href="http://yoursite.com/2019/12/01/%E8%AF%9D%E8%B0%88JSR-292/"/>
+    <id>http://yoursite.com/2019/12/01/%E8%AF%9D%E8%B0%88JSR-292/</id>
+    <published>2019-12-01T01:54:11.000Z</published>
+    <updated>2021-03-08T09:53:56.449Z</updated>
+    
+    <content type="html"><![CDATA[<p>JSR-292 是JVM架构的一重大调整；</p><p>在java中，方法调用涉及到哪些<br>1，Naming 采用名字符号索引目标地址<br>2，Linking 使用目标地址<br>3，Selecting 方法选择<br>4，Adapting 遵循方法调用时双方约定</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;JSR-292 是JVM架构的一重大调整；&lt;/p&gt;&lt;p&gt;在java中，方法调用涉及到哪些&lt;br&gt;1，Naming 采用名字符号索引目标地址&lt;br&gt;2，Linking 使用目标地址&lt;br&gt;3，Selecting 方法选择&lt;br&gt;4，Adapting 遵循方法调用时双方约定&lt;/</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>jib</title>
+    <link href="http://yoursite.com/2019/07/17/jib/"/>
+    <id>http://yoursite.com/2019/07/17/jib/</id>
+    <published>2019-07-17T14:53:42.000Z</published>
+    <updated>2021-03-08T09:53:56.444Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/2019/07/17/jib/dockerProcess1.png" alt="Docker 构建流程: "></p><p><img src="/2019/07/17/jib/dockerProcess2.png" alt="Jib 构建流程: "></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/2019/07/17/jib/dockerProcess1.png&quot; alt=&quot;Docker 构建流程: &quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/2019/07/17/jib/dockerProcess2.png&quot; alt=&quot;Jib 构建流程: &quot;&gt;&lt;</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深入jvm10-收集器.md</title>
+    <link href="http://yoursite.com/2019/07/15/%E6%B7%B1%E5%85%A5jvm10-%E6%94%B6%E9%9B%86%E5%99%A8/"/>
+    <id>http://yoursite.com/2019/07/15/%E6%B7%B1%E5%85%A5jvm10-%E6%94%B6%E9%9B%86%E5%99%A8/</id>
+    <published>2019-07-15T14:28:29.000Z</published>
+    <updated>2021-03-08T09:53:56.448Z</updated>
+    
+    <content type="html"><![CDATA[<p>新生代的收集器</p><h2 id="Seria"><a href="#Seria" class="headerlink" title="Seria"></a>Seria</h2><p>单线程收集器，工作是必须 stop the word<br>可控制参数： -XX:SurvivorRatio , -XX:PretenureSizeThreadHold -XX:HandlePromotionFailure<br>算法：采用复制算法</p><h2 id="ParNew"><a href="#ParNew" class="headerlink" title="ParNew"></a>ParNew</h2><p>多线程收集器，工作是必须 stop the word<br>可控制参数： -XX:SurvivorRatio , -XX:PretenureSizeThreadHold -XX:HandlePromotionFailure -XX:+UseParNewGC<br>算法：采用复制算法<br>默认与CMS结合作为新生代收集器</p><h2 id="Parallel-Scavenge"><a href="#Parallel-Scavenge" class="headerlink" title="Parallel Scavenge"></a>Parallel Scavenge</h2><p>重点关注吞吐量 throughput = 运行代码时间/(运行代码时间+垃圾收集时间)<br>参数控制：<br>-XX:+MaxGCPauseMillis 最大垃圾收集停顿时间</p><p>-XX:GCTimeRatio:直接设置吞吐量 （垃圾收集时间占总时间的比率）<br>因为其没有使用传统的GC收集器，暂时无法与CMS一起配合使用</p><p>老年代的收集器</p><h2 id="Seria-Old"><a href="#Seria-Old" class="headerlink" title="Seria Old"></a>Seria Old</h2><p>1：与Parallel Scavenge配合使用<br>2：CMS的后备方案（Concurrent Model failure的时候）</p><h2 id="Parllel-Old"><a href="#Parllel-Old" class="headerlink" title="Parllel Old"></a>Parllel Old</h2><p>Parallel Scavenge 的老年代版本<br>算法：标记-整理</p><h2 id="CMS"><a href="#CMS" class="headerlink" title="CMS"></a>CMS</h2><p>算法：标记-清除<br>步骤：<br>1 ，初始标记 （标记GC-root能关联到的对象）<br>2 ，并发标记<br>3 ，重新标记<br>4 ，并发清除</p><h2 id="G1"><a href="#G1" class="headerlink" title="G1"></a>G1</h2><h2><a href="#" class="headerlink"></a></h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;新生代的收集器&lt;/p&gt;&lt;h2 id=&quot;Seria&quot;&gt;&lt;a href=&quot;#Seria&quot; class=&quot;headerlink&quot; title=&quot;Seria&quot;&gt;&lt;/a&gt;Seria&lt;/h2&gt;&lt;p&gt;单线程收集器，工作是必须 stop the word&lt;br&gt;可控制参数： -XX:Sur</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深入java9</title>
+    <link href="http://yoursite.com/2019/07/08/%E6%B7%B1%E5%85%A5java9/"/>
+    <id>http://yoursite.com/2019/07/08/%E6%B7%B1%E5%85%A5java9/</id>
+    <published>2019-07-08T15:33:47.000Z</published>
+    <updated>2021-03-08T09:53:56.447Z</updated>
+    
+    <content type="html"><![CDATA[<p>@Target({ ElementType.TYPE, ElementType.FIELD })<br>@Target用来限定目标注解所能标注的 Java 结构 (比如上面的类和字段；该注解可以作用在类和字段上)</p><p>注解共有三种不同的生命周期：SOURCE，CLASS或RUNTIME，分别表示注解只出现在源代码中，只出现在源代码和字节码中，以及出现在源代码、字节码和运行过程中。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;@Target({ ElementType.TYPE, ElementType.FIELD })&lt;br&gt;@Target用来限定目标注解所能标注的 Java 结构 (比如上面的类和字段；该注解可以作用在类和字段上)&lt;/p&gt;&lt;p&gt;注解共有三种不同的生命周期：SOURCE，CLA</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>docker的网络设置</title>
+    <link href="http://yoursite.com/2019/07/01/docker%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/"/>
+    <id>http://yoursite.com/2019/07/01/docker%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/</id>
+    <published>2019-07-01T15:09:15.000Z</published>
+    <updated>2021-03-08T09:53:56.441Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="容器间是如何互相通讯的"><a href="#容器间是如何互相通讯的" class="headerlink" title="容器间是如何互相通讯的"></a>容器间是如何互相通讯的</h1><p>1，iptables 是否开启。在容器起来的时候会自动开启Iptables（可以手动开启iptables）<br>2，需要互相访问的容器是否已经是链接到相同的网桥上面去（即 拓扑图是不是互通的）<br>容器起来的时候会创建一对veth ，一个放在网桥（docker0） 对内的接口上，命名一般都是vethXXXX，另外一个veth会放在容器内部命名问veth0(可以联想成，我们自己的电脑的那个veth0，是默认的网卡)<br>【veth 在docker0 的对内接口可以通过brctl show 查看docker0 上 interfaces】<br>当一个数据包到达veth 一端的时候，另外一段也可以收到一样的数据（这是通过内核数据拷贝实现的，所以两端传输的数据速度很快，容器间的相互访问，基本上就是内核的数据拷贝。几乎可以忽略性能影响<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bridge namebridge idSTP enabledinterfaces</span><br><span class="line">docker08000.0242f9c70e0fnoveth0622f45</span><br></pre></td></tr></table></figure><p></p><p>2，容器与外界是如何互相通讯的<br>docker0 网桥是在docker启动的时候初始话的一个网桥（可以自定义）。然后自动分配一个ip地址（大多例如：172.17.42.1/16）;<br>一对veth的创建后</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;容器间是如何互相通讯的&quot;&gt;&lt;a href=&quot;#容器间是如何互相通讯的&quot; class=&quot;headerlink&quot; title=&quot;容器间是如何互相通讯的&quot;&gt;&lt;/a&gt;容器间是如何互相通讯的&lt;/h1&gt;&lt;p&gt;1，iptables 是否开启。在容器起来的时候会自动开启Iptab</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深入jvm8</title>
+    <link href="http://yoursite.com/2019/06/29/%E6%B7%B1%E5%85%A5jvm8/"/>
+    <id>http://yoursite.com/2019/06/29/%E6%B7%B1%E5%85%A5jvm8/</id>
+    <published>2019-06-29T12:13:39.000Z</published>
+    <updated>2021-03-08T09:53:56.449Z</updated>
+    
+    <content type="html"><![CDATA[<p>方法内联是指，在编译过程中，当遇到方法调用时，将目标方法的方法体纳入编译范围之中，并取代原方法调用的优化手段。</p><p>即时编译器既可以在解析过程中替换方法调用字节码，也可以在 IR 图中替换方法调用 IR 节点。这两者都需要将目标方法的参数以及返回值映射到当前方法来。</p><p>方法内联有许多规则。除了一些强制内联以及强制不内联的规则外，即时编译器会根据方法调用的层数、方法调用指令所在的程序路径的热度、目标方法的调用次数及大小，以及当前 IR 图的大小来决定方法调用能否被内联。</p><p>今天的实践环节，你可以利用虚拟机参数 -XX:+PrintInlining 来打印编译过程中的内联情况。具体每项内联信息所代表的意思</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;方法内联是指，在编译过程中，当遇到方法调用时，将目标方法的方法体纳入编译范围之中，并取代原方法调用的优化手段。&lt;/p&gt;&lt;p&gt;即时编译器既可以在解析过程中替换方法调用字节码，也可以在 IR 图中替换方法调用 IR 节点。这两者都需要将目标方法的参数以及返回值映射到当前方法来。</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深入jvm7</title>
+    <link href="http://yoursite.com/2019/06/20/%E6%B7%B1%E5%85%A5jvm7/"/>
+    <id>http://yoursite.com/2019/06/20/%E6%B7%B1%E5%85%A5jvm7/</id>
+    <published>2019-06-20T15:46:39.000Z</published>
+    <updated>2021-03-08T09:53:56.448Z</updated>
+    
+    <content type="html"><![CDATA[<p>即时编译-直接将Java字节码编译成机器码，运行在底层硬件之上，这么玩是为了提高代码的执行效率，通俗点就是能使代码跑的更快一些</p><p>即时编译的触发点是热点代码，即 即时编译仅针对热点代码来触发，热点代码是通过方法的调用次数或者回边循环的次数来标示的，这里也侧面反映出来即时编译是针对方法块的</p><p>java虚拟机包含多个编译器 C1 C2 Graal<br>其中Graal是试验性的编译器</p><p>jdk7 之前 C1 和 C2 分别用 -client -server来制定C1 C2 的编译器</p><p>JDK7 之后引入分层编译的概念</p><p>0 ： 解释执行<br>1 ： 执行无 profiling 的C1代码<br>2 ： 执行仅带方法调用次数以及循环回边执行次数profiling的代码<br>3 ： 执行所有带profiling的C1代码<br>4 ： 执行所有C2代码</p><p>在 5 个层次的执行状态中，1 层和 4 层为终止状态</p><p>java 8 之后是默认开启分层编译的</p><p>通常情况下，方法会首先被解释执行，然后被 3 层的 C1 编译，最后被 4 层的 C2 编译。</p><p>即时编译是由方法调用计数器和循环回边计数器触发的。在使用分层编译的情况下，触发编译的阈值是根据当前待编译的方法数目动态调整的。</p><p>##2<br>今天我介绍了 Java 虚拟机的 profiling 以及基于所收集的数据的优化和去优化。</p><p>通常情况下，解释执行过程中仅收集方法的调用次数以及循环回边的执行次数。</p><p>当方法被 3 层 C1 所编译时，生成的 C1 代码将收集条件跳转指令的分支 profile，以及类型相关指令的类型 profile。在部分极端情况下，Java 虚拟机也会在解释执行过程中收集这些 profile。</p><p>基于分支 profile 的优化以及基于类型 profile 的优化都将对程序今后的执行作出假设。这些假设将精简所要编译的代码的控制流以及数据流。在假设失败的情况下，Java 虚拟机将采取去优化，退回至解释执行并重新收集相关的 profile</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;即时编译-直接将Java字节码编译成机器码，运行在底层硬件之上，这么玩是为了提高代码的执行效率，通俗点就是能使代码跑的更快一些&lt;/p&gt;&lt;p&gt;即时编译的触发点是热点代码，即 即时编译仅针对热点代码来触发，热点代码是通过方法的调用次数或者回边循环的次数来标示的，这里也侧面反映出</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深入jvm</title>
+    <link href="http://yoursite.com/2019/06/20/%E6%B7%B1%E5%85%A5jvm6/"/>
+    <id>http://yoursite.com/2019/06/20/%E6%B7%B1%E5%85%A5jvm6/</id>
+    <published>2019-06-20T14:51:11.000Z</published>
+    <updated>2019-06-20T14:51:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>1:Java语法糖-是一种帮助开发人员提高开发效率的小甜点，原理是将一些繁琐的事情交给编译器来处理，开发人员少做一些事情，当然，本纸上这些事情还必须要做，只是有编译器来做了</p><p>2:Java语法糖有那几种呢？如下所示：<br>2-1:包装类型和基本类型间的转换，自动装箱和拆箱的设计<br>2-2:泛型的设计<br>2-3:变长参数的设计<br>2-4:try-with-resources，关闭资源的设计<br>2-5:在同一个catch代码块中捕获多种异常<br>2-6:finally代码块总是被执行的设计<br>2-7:foreach循环数组的设计<br>2-8:foreach循环Iterable对象的设计</p><p>3:编译器的具体实现细节不是很清楚，猜测是识别出对应的语法然后填充上对应的代码，将语法糖还原成其本质-一些重复繁琐的代码块</p><p>4:之前有同事问我泛型是怎么实现的？<br>我讲不出来，只晓得使用泛型后，不需要写类型强转的代码了，如果类型不对也会有提示且编译失败，现在知道的多一点了，本质上类型强转的工作还是必须要做的，只是不是有开发人员来做了，由编译器来做，并且编译器会擦除掉对应的泛型信息，使用合适的父类型来代替，可能是Object类也可能是声明泛型时指定的继承的类</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;1:Java语法糖-是一种帮助开发人员提高开发效率的小甜点，原理是将一些繁琐的事情交给编译器来处理，开发人员少做一些事情，当然，本纸上这些事情还必须要做，只是有编译器来做了&lt;/p&gt;&lt;p&gt;2:Java语法糖有那几种呢？如下所示：&lt;br&gt;2-1:包装类型和基本类型间的转换，自动</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深入jvm5.md</title>
+    <link href="http://yoursite.com/2019/06/18/%E6%B7%B1%E5%85%A5jvm5/"/>
+    <id>http://yoursite.com/2019/06/18/%E6%B7%B1%E5%85%A5jvm5/</id>
+    <published>2019-06-18T15:32:16.000Z</published>
+    <updated>2021-03-08T09:46:09.348Z</updated>
+    
+    <content type="html"><![CDATA[<p>#java 内存模型<br>java内存模型的定义决定了java数据操作的顺序性和准确性，程序上讲，因为操作系统的差异性，导致了程序操作内存的差异性，java内存模型的定义也保证了应用层和物理层面的隔离。</p><p>###java内存模型目的：<br>是为了保证程序变量访问规则，即在虚拟中中保存变量-&gt;变量从内存中取出来的底层细节等一系列访问规则。【变量】：指程序中的公共变量，实例，静态字段，静态反复，构成数组的对象（不包含局部变量等线程私有变量）。</p><h3 id="java内存规定："><a href="#java内存规定：" class="headerlink" title="java内存规定："></a>java内存规定：</h3><p>所有变量存在主内存中。与之对应的是各个线程也有相对应的工作内存。每个线程工作的时候，如果访问到主内存的变量，会将该对象的主内存副本拷贝到工作内存中（只拷贝访问字段）。线程对变量的操作都是基于工作内存的，之后再同步到主内存中去。这里的主内存和工作内存和虚拟机的内存分配不是同一个层次的分层，没有可比性。如果非要对应的话可以理解为主内存区是指 堆空间，方法区（代码块和静态变量，常量池）；工作内存指：线程栈帧；</p><h3 id="java内存的交互："><a href="#java内存的交互：" class="headerlink" title="java内存的交互："></a>java内存的交互：</h3><p>lock，unlock,read,load,use,assign.store,write。所有针对于内存大操作都是成对出现的，没有单独存在的说法比如：lock &amp;&amp; unlock , read &amp;&amp; load &amp;&amp; use, store &amp;&amp; wirte;</p><h3 id="java内存模型的3个特征："><a href="#java内存模型的3个特征：" class="headerlink" title="java内存模型的3个特征："></a>java内存模型的3个特征：</h3><p>原子性</p><p>可见性</p><p>有序性</p><p>###java内存模型原则</p><h4 id="happen-before-原则"><a href="#happen-before-原则" class="headerlink" title="happen-before 原则"></a>happen-before 原则</h4><p>程序次序规则</p><p>管程锁定</p><p>volatile</p><p>程序启动</p><p>程序终止</p><p>程序终端</p><p>程序对象终结</p><p>传递性</p><h2 id="volatile型变量"><a href="#volatile型变量" class="headerlink" title="volatile型变量"></a>volatile型变量</h2><p>volatile 之所有能够起到及时属刷新主内的数据，保证写操作和读操作的顺序正确性，禁止指令重排，主要是volatile 变量的操作回引入 “内存屏障” ， 内存屏障会在java转为字节码的时候插入一条内存屏障语句。当程序执行到内存屏障时默认程序之前的操作都是完成了的，立马内存同步，从而保证了数据的可见性和重拍的限制。</p><h2 id="remark"><a href="#remark" class="headerlink" title="remark"></a>remark</h2><p>64位虚拟中操作long Double等64位变量时，保存的都是32高位和低位保存，这样子long，Double就不是原子操作了，就会出现一个意料之外的数值。但是在现有的虚拟账号不会有这个问题，只要原因是引入了 monitorenter 和 monitorexit 指令。这两种指令均会消耗操作数栈上的一个引用类型的元素，来确保long Double操作时加锁</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;#java 内存模型&lt;br&gt;java内存模型的定义决定了java数据操作的顺序性和准确性，程序上讲，因为操作系统的差异性，导致了程序操作内存的差异性，java内存模型的定义也保证了应用层和物理层面的隔离。&lt;/p&gt;&lt;p&gt;###java内存模型目的：&lt;br&gt;是为了保证程序变量访</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
