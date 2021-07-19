@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://zerongchen.github.io/2021/07/19/TEST/</loc>
-    <lastmod>2021-07-19</lastmod>
-  </url>
-  <url>
     <loc>http://zerongchen.github.io/2021/04/14/Memory-Efficient-Java-Code/</loc>
     <lastmod>2021-07-14</lastmod>
   </url>
@@ -37,11 +33,15 @@
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
+    <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking/</loc>
+    <lastmod>2021-03-08</lastmod>
+  </url>
+  <url>
     <loc>http://zerongchen.github.io/2019/07/17/jib/</loc>
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
-    <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking/</loc>
+    <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking-URL-URLConnection/</loc>
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
@@ -53,15 +53,7 @@
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
-    <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking-URL-URLConnection/</loc>
-    <lastmod>2021-03-08</lastmod>
-  </url>
-  <url>
     <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking-interAddress/</loc>
-    <lastmod>2021-03-08</lastmod>
-  </url>
-  <url>
-    <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking-UDP-DatagramSocket/</loc>
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
@@ -69,7 +61,7 @@
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
-    <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking-JarUrlConnection/</loc>
+    <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking-UDP-DatagramSocket/</loc>
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
@@ -77,11 +69,15 @@
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
-    <loc>http://zerongchen.github.io/2019/06/18/%E6%B7%B1%E5%85%A5jvm5/</loc>
+    <loc>http://zerongchen.github.io/2020/06/17/java-NetWorking-JarUrlConnection/</loc>
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
     <loc>http://zerongchen.github.io/2019/06/04/%E6%B7%B1%E5%85%A5jvm1/</loc>
+    <lastmod>2021-03-08</lastmod>
+  </url>
+  <url>
+    <loc>http://zerongchen.github.io/2019/06/18/%E6%B7%B1%E5%85%A5jvm5/</loc>
     <lastmod>2021-03-08</lastmod>
   </url>
   <url>
