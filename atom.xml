@@ -3,11 +3,11 @@
   <title>Roy&#39;s Note</title>
   
   
-  <link href="http://yoursite.com/atom.xml" rel="self"/>
+  <link href="http://zerongchen.github.io/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
-  <updated>2021-04-26T15:55:49.449Z</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://zerongchen.github.io/"/>
+  <updated>2021-07-19T03:40:20.148Z</updated>
+  <id>http://zerongchen.github.io/</id>
   
   <author>
     <name>陈泽荣</name>
@@ -17,9 +17,29 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>TEST</title>
+    <link href="http://zerongchen.github.io/2021/07/19/TEST/"/>
+    <id>http://zerongchen.github.io/2021/07/19/TEST/</id>
+    <published>2021-07-19T03:37:00.000Z</published>
+    <updated>2021-07-19T03:40:20.148Z</updated>
+    
+    <content type="html"><![CDATA[<p>test</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;test&lt;/p&gt;</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>SOLID</title>
-    <link href="http://yoursite.com/2021/04/26/SOLID/"/>
-    <id>http://yoursite.com/2021/04/26/SOLID/</id>
+    <link href="http://zerongchen.github.io/2021/04/26/SOLID/"/>
+    <id>http://zerongchen.github.io/2021/04/26/SOLID/</id>
     <published>2021-04-26T14:39:36.000Z</published>
     <updated>2021-04-26T15:55:49.449Z</updated>
     
@@ -38,8 +58,8 @@
   
   <entry>
     <title>Memory-EfficientJavaCode</title>
-    <link href="http://yoursite.com/2021/04/14/Memory-Efficient-Java-Code/"/>
-    <id>http://yoursite.com/2021/04/14/Memory-Efficient-Java-Code/</id>
+    <link href="http://zerongchen.github.io/2021/04/14/Memory-Efficient-Java-Code/"/>
+    <id>http://zerongchen.github.io/2021/04/14/Memory-Efficient-Java-Code/</id>
     <published>2021-04-13T16:15:46.000Z</published>
     <updated>2021-07-14T09:10:17.272Z</updated>
     
@@ -58,8 +78,8 @@
   
   <entry>
     <title>spring-tomcat-apr</title>
-    <link href="http://yoursite.com/2021/03/08/spring-tomcat-apr/"/>
-    <id>http://yoursite.com/2021/03/08/spring-tomcat-apr/</id>
+    <link href="http://zerongchen.github.io/2021/03/08/spring-tomcat-apr/"/>
+    <id>http://zerongchen.github.io/2021/03/08/spring-tomcat-apr/</id>
     <published>2021-03-08T09:39:21.000Z</published>
     <updated>2021-07-14T09:09:46.345Z</updated>
     
@@ -78,8 +98,8 @@
   
   <entry>
     <title>java_NetWorking-Protocol-Design</title>
-    <link href="http://yoursite.com/2020/06/17/java-NetWorking-Protocol-Design/"/>
-    <id>http://yoursite.com/2020/06/17/java-NetWorking-Protocol-Design/</id>
+    <link href="http://zerongchen.github.io/2020/06/17/java-NetWorking-Protocol-Design/"/>
+    <id>http://zerongchen.github.io/2020/06/17/java-NetWorking-Protocol-Design/</id>
     <published>2020-06-17T09:59:34.000Z</published>
     <updated>2021-03-08T09:53:56.442Z</updated>
     
@@ -91,8 +111,8 @@
   
   <entry>
     <title>java_NetWorking-interAddress</title>
-    <link href="http://yoursite.com/2020/06/17/java-NetWorking-interAddress/"/>
-    <id>http://yoursite.com/2020/06/17/java-NetWorking-interAddress/</id>
+    <link href="http://zerongchen.github.io/2020/06/17/java-NetWorking-interAddress/"/>
+    <id>http://zerongchen.github.io/2020/06/17/java-NetWorking-interAddress/</id>
     <published>2020-06-17T09:59:19.000Z</published>
     <updated>2021-03-08T09:53:56.443Z</updated>
     
@@ -104,8 +124,8 @@
   
   <entry>
     <title>java_NetWorking-JarUrlConnection</title>
-    <link href="http://yoursite.com/2020/06/17/java-NetWorking-JarUrlConnection/"/>
-    <id>http://yoursite.com/2020/06/17/java-NetWorking-JarUrlConnection/</id>
+    <link href="http://zerongchen.github.io/2020/06/17/java-NetWorking-JarUrlConnection/"/>
+    <id>http://zerongchen.github.io/2020/06/17/java-NetWorking-JarUrlConnection/</id>
     <published>2020-06-17T09:59:08.000Z</published>
     <updated>2021-03-08T09:53:56.441Z</updated>
     
@@ -117,8 +137,8 @@
   
   <entry>
     <title>java_NetWorking-URL+URLConnection</title>
-    <link href="http://yoursite.com/2020/06/17/java-NetWorking-URL-URLConnection/"/>
-    <id>http://yoursite.com/2020/06/17/java-NetWorking-URL-URLConnection/</id>
+    <link href="http://zerongchen.github.io/2020/06/17/java-NetWorking-URL-URLConnection/"/>
+    <id>http://zerongchen.github.io/2020/06/17/java-NetWorking-URL-URLConnection/</id>
     <published>2020-06-17T09:58:50.000Z</published>
     <updated>2021-03-08T09:53:56.443Z</updated>
     
@@ -130,8 +150,8 @@
   
   <entry>
     <title>java_NetWorking-UDP-DatagramSocket</title>
-    <link href="http://yoursite.com/2020/06/17/java-NetWorking-UDP-DatagramSocket/"/>
-    <id>http://yoursite.com/2020/06/17/java-NetWorking-UDP-DatagramSocket/</id>
+    <link href="http://zerongchen.github.io/2020/06/17/java-NetWorking-UDP-DatagramSocket/"/>
+    <id>http://zerongchen.github.io/2020/06/17/java-NetWorking-UDP-DatagramSocket/</id>
     <published>2020-06-17T09:58:27.000Z</published>
     <updated>2021-03-08T09:53:56.442Z</updated>
     
@@ -143,8 +163,8 @@
   
   <entry>
     <title>java_NetWorking-serversocket</title>
-    <link href="http://yoursite.com/2020/06/17/java-NetWorking-serversocket/"/>
-    <id>http://yoursite.com/2020/06/17/java-NetWorking-serversocket/</id>
+    <link href="http://zerongchen.github.io/2020/06/17/java-NetWorking-serversocket/"/>
+    <id>http://zerongchen.github.io/2020/06/17/java-NetWorking-serversocket/</id>
     <published>2020-06-17T09:57:54.000Z</published>
     <updated>2021-03-08T09:53:56.443Z</updated>
     
@@ -156,8 +176,8 @@
   
   <entry>
     <title>java_NetWorking-socket</title>
-    <link href="http://yoursite.com/2020/06/17/java-NetWorking-socket/"/>
-    <id>http://yoursite.com/2020/06/17/java-NetWorking-socket/</id>
+    <link href="http://zerongchen.github.io/2020/06/17/java-NetWorking-socket/"/>
+    <id>http://zerongchen.github.io/2020/06/17/java-NetWorking-socket/</id>
     <published>2020-06-17T09:57:48.000Z</published>
     <updated>2021-03-08T09:53:56.443Z</updated>
     
@@ -169,8 +189,8 @@
   
   <entry>
     <title>java_NetWorking</title>
-    <link href="http://yoursite.com/2020/06/17/java-NetWorking/"/>
-    <id>http://yoursite.com/2020/06/17/java-NetWorking/</id>
+    <link href="http://zerongchen.github.io/2020/06/17/java-NetWorking/"/>
+    <id>http://zerongchen.github.io/2020/06/17/java-NetWorking/</id>
     <published>2020-06-17T09:57:39.000Z</published>
     <updated>2021-03-08T09:53:56.444Z</updated>
     
@@ -185,14 +205,14 @@
     
     
     
-    <category term="java网络" scheme="http://yoursite.com/tags/java网络/"/>
+    <category term="java网络" scheme="http://zerongchen.github.io/tags/java网络/"/>
     
   </entry>
   
   <entry>
     <title>话谈JSR_292</title>
-    <link href="http://yoursite.com/2019/12/01/%E8%AF%9D%E8%B0%88JSR-292/"/>
-    <id>http://yoursite.com/2019/12/01/%E8%AF%9D%E8%B0%88JSR-292/</id>
+    <link href="http://zerongchen.github.io/2019/12/01/%E8%AF%9D%E8%B0%88JSR-292/"/>
+    <id>http://zerongchen.github.io/2019/12/01/%E8%AF%9D%E8%B0%88JSR-292/</id>
     <published>2019-12-01T01:54:11.000Z</published>
     <updated>2021-03-08T09:53:56.449Z</updated>
     
@@ -211,8 +231,8 @@
   
   <entry>
     <title>jib</title>
-    <link href="http://yoursite.com/2019/07/17/jib/"/>
-    <id>http://yoursite.com/2019/07/17/jib/</id>
+    <link href="http://zerongchen.github.io/2019/07/17/jib/"/>
+    <id>http://zerongchen.github.io/2019/07/17/jib/</id>
     <published>2019-07-17T14:53:42.000Z</published>
     <updated>2021-03-08T09:53:56.444Z</updated>
     
@@ -231,8 +251,8 @@
   
   <entry>
     <title>深入jvm10-收集器.md</title>
-    <link href="http://yoursite.com/2019/07/15/%E6%B7%B1%E5%85%A5jvm10-%E6%94%B6%E9%9B%86%E5%99%A8/"/>
-    <id>http://yoursite.com/2019/07/15/%E6%B7%B1%E5%85%A5jvm10-%E6%94%B6%E9%9B%86%E5%99%A8/</id>
+    <link href="http://zerongchen.github.io/2019/07/15/%E6%B7%B1%E5%85%A5jvm10-%E6%94%B6%E9%9B%86%E5%99%A8/"/>
+    <id>http://zerongchen.github.io/2019/07/15/%E6%B7%B1%E5%85%A5jvm10-%E6%94%B6%E9%9B%86%E5%99%A8/</id>
     <published>2019-07-15T14:28:29.000Z</published>
     <updated>2021-03-08T09:53:56.448Z</updated>
     
@@ -251,8 +271,8 @@
   
   <entry>
     <title>深入java9</title>
-    <link href="http://yoursite.com/2019/07/08/%E6%B7%B1%E5%85%A5java9/"/>
-    <id>http://yoursite.com/2019/07/08/%E6%B7%B1%E5%85%A5java9/</id>
+    <link href="http://zerongchen.github.io/2019/07/08/%E6%B7%B1%E5%85%A5java9/"/>
+    <id>http://zerongchen.github.io/2019/07/08/%E6%B7%B1%E5%85%A5java9/</id>
     <published>2019-07-08T15:33:47.000Z</published>
     <updated>2021-03-08T09:53:56.447Z</updated>
     
@@ -271,8 +291,8 @@
   
   <entry>
     <title>docker的网络设置</title>
-    <link href="http://yoursite.com/2019/07/01/docker%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/"/>
-    <id>http://yoursite.com/2019/07/01/docker%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/</id>
+    <link href="http://zerongchen.github.io/2019/07/01/docker%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/"/>
+    <id>http://zerongchen.github.io/2019/07/01/docker%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/</id>
     <published>2019-07-01T15:09:15.000Z</published>
     <updated>2021-03-08T09:53:56.441Z</updated>
     
@@ -291,8 +311,8 @@
   
   <entry>
     <title>深入jvm8</title>
-    <link href="http://yoursite.com/2019/06/29/%E6%B7%B1%E5%85%A5jvm8/"/>
-    <id>http://yoursite.com/2019/06/29/%E6%B7%B1%E5%85%A5jvm8/</id>
+    <link href="http://zerongchen.github.io/2019/06/29/%E6%B7%B1%E5%85%A5jvm8/"/>
+    <id>http://zerongchen.github.io/2019/06/29/%E6%B7%B1%E5%85%A5jvm8/</id>
     <published>2019-06-29T12:13:39.000Z</published>
     <updated>2021-03-08T09:53:56.449Z</updated>
     
@@ -311,8 +331,8 @@
   
   <entry>
     <title>深入jvm7</title>
-    <link href="http://yoursite.com/2019/06/20/%E6%B7%B1%E5%85%A5jvm7/"/>
-    <id>http://yoursite.com/2019/06/20/%E6%B7%B1%E5%85%A5jvm7/</id>
+    <link href="http://zerongchen.github.io/2019/06/20/%E6%B7%B1%E5%85%A5jvm7/"/>
+    <id>http://zerongchen.github.io/2019/06/20/%E6%B7%B1%E5%85%A5jvm7/</id>
     <published>2019-06-20T15:46:39.000Z</published>
     <updated>2021-03-08T09:53:56.448Z</updated>
     
@@ -331,8 +351,8 @@
   
   <entry>
     <title>深入jvm</title>
-    <link href="http://yoursite.com/2019/06/20/%E6%B7%B1%E5%85%A5jvm6/"/>
-    <id>http://yoursite.com/2019/06/20/%E6%B7%B1%E5%85%A5jvm6/</id>
+    <link href="http://zerongchen.github.io/2019/06/20/%E6%B7%B1%E5%85%A5jvm6/"/>
+    <id>http://zerongchen.github.io/2019/06/20/%E6%B7%B1%E5%85%A5jvm6/</id>
     <published>2019-06-20T14:51:11.000Z</published>
     <updated>2019-06-20T14:51:42.000Z</updated>
     
@@ -342,26 +362,6 @@
       
       
     <summary type="html">&lt;p&gt;1:Java语法糖-是一种帮助开发人员提高开发效率的小甜点，原理是将一些繁琐的事情交给编译器来处理，开发人员少做一些事情，当然，本纸上这些事情还必须要做，只是有编译器来做了&lt;/p&gt;&lt;p&gt;2:Java语法糖有那几种呢？如下所示：&lt;br&gt;2-1:包装类型和基本类型间的转换，自动</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>深入jvm5.md</title>
-    <link href="http://yoursite.com/2019/06/18/%E6%B7%B1%E5%85%A5jvm5/"/>
-    <id>http://yoursite.com/2019/06/18/%E6%B7%B1%E5%85%A5jvm5/</id>
-    <published>2019-06-18T15:32:16.000Z</published>
-    <updated>2021-03-08T09:46:09.348Z</updated>
-    
-    <content type="html"><![CDATA[<p>#java 内存模型<br>java内存模型的定义决定了java数据操作的顺序性和准确性，程序上讲，因为操作系统的差异性，导致了程序操作内存的差异性，java内存模型的定义也保证了应用层和物理层面的隔离。</p><p>###java内存模型目的：<br>是为了保证程序变量访问规则，即在虚拟中中保存变量-&gt;变量从内存中取出来的底层细节等一系列访问规则。【变量】：指程序中的公共变量，实例，静态字段，静态反复，构成数组的对象（不包含局部变量等线程私有变量）。</p><h3 id="java内存规定："><a href="#java内存规定：" class="headerlink" title="java内存规定："></a>java内存规定：</h3><p>所有变量存在主内存中。与之对应的是各个线程也有相对应的工作内存。每个线程工作的时候，如果访问到主内存的变量，会将该对象的主内存副本拷贝到工作内存中（只拷贝访问字段）。线程对变量的操作都是基于工作内存的，之后再同步到主内存中去。这里的主内存和工作内存和虚拟机的内存分配不是同一个层次的分层，没有可比性。如果非要对应的话可以理解为主内存区是指 堆空间，方法区（代码块和静态变量，常量池）；工作内存指：线程栈帧；</p><h3 id="java内存的交互："><a href="#java内存的交互：" class="headerlink" title="java内存的交互："></a>java内存的交互：</h3><p>lock，unlock,read,load,use,assign.store,write。所有针对于内存大操作都是成对出现的，没有单独存在的说法比如：lock &amp;&amp; unlock , read &amp;&amp; load &amp;&amp; use, store &amp;&amp; wirte;</p><h3 id="java内存模型的3个特征："><a href="#java内存模型的3个特征：" class="headerlink" title="java内存模型的3个特征："></a>java内存模型的3个特征：</h3><p>原子性</p><p>可见性</p><p>有序性</p><p>###java内存模型原则</p><h4 id="happen-before-原则"><a href="#happen-before-原则" class="headerlink" title="happen-before 原则"></a>happen-before 原则</h4><p>程序次序规则</p><p>管程锁定</p><p>volatile</p><p>程序启动</p><p>程序终止</p><p>程序终端</p><p>程序对象终结</p><p>传递性</p><h2 id="volatile型变量"><a href="#volatile型变量" class="headerlink" title="volatile型变量"></a>volatile型变量</h2><p>volatile 之所有能够起到及时属刷新主内的数据，保证写操作和读操作的顺序正确性，禁止指令重排，主要是volatile 变量的操作回引入 “内存屏障” ， 内存屏障会在java转为字节码的时候插入一条内存屏障语句。当程序执行到内存屏障时默认程序之前的操作都是完成了的，立马内存同步，从而保证了数据的可见性和重拍的限制。</p><h2 id="remark"><a href="#remark" class="headerlink" title="remark"></a>remark</h2><p>64位虚拟中操作long Double等64位变量时，保存的都是32高位和低位保存，这样子long，Double就不是原子操作了，就会出现一个意料之外的数值。但是在现有的虚拟账号不会有这个问题，只要原因是引入了 monitorenter 和 monitorexit 指令。这两种指令均会消耗操作数栈上的一个引用类型的元素，来确保long Double操作时加锁</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;#java 内存模型&lt;br&gt;java内存模型的定义决定了java数据操作的顺序性和准确性，程序上讲，因为操作系统的差异性，导致了程序操作内存的差异性，java内存模型的定义也保证了应用层和物理层面的隔离。&lt;/p&gt;&lt;p&gt;###java内存模型目的：&lt;br&gt;是为了保证程序变量访</summary>
       
     
     
